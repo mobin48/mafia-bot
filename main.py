@@ -14,6 +14,52 @@ from players_display import format_players_status
 
 TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN') or os.environ.get('TOKEN')
 
+USERS_FILE = "data/users.json"
+
+def load_users():
+    if not os.path.exists(USERS_FILE):
+        return {}
+    with open(USERS_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def save_users(users):
+    with open(USERS_FILE, "w", encoding="utf-8") as f:
+        json.dump(users, f)
+
+def is_first_start(user_id):
+    users = load_users()
+    if str(user_id) in users:
+        return False
+    users[str(user_id)] = True
+    save_users(users)
+    return True
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+
+    if not is_first_start(user.id):
+        # اگر قبلا آمده، چیزی نفرست
+        return
+
+    # متن خوش‌آمدگویی
+    welcome_text = (
+        "ورود ارزشمند شما را به @SilentWerewolfBot تبریک میگویم.\n"
+        "شما با موفقیت به ربات متصل شدید.\n"
+        "برای اطلاعات از خبر ها و تغییرات چنل رسمی ربات را دنبال کنید."
+    )
+
+    # دکمه‌های قابل کلیک برای آی‌دی‌ها
+    keyboard = [
+        [InlineKeyboardButton("کانال اخبار", url="https://t.me/silentwolfsupport")],
+        [InlineKeyboardButton("ربات اصلی", url="https://t.me/SilentWerewolfBot")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await update.message.reply_text(
+        welcome_text,
+        reply_markup=reply_markup
+    ) 
+    
 # خواندن نقش‌ها از فایل
 with open("roles.json", "r", encoding="utf-8") as f:
     roles_data = json.load(f)
@@ -1083,6 +1129,8 @@ def main():
     if not TOKEN:
         print("خطا: توکن ربات تنظیم نشده است!")
         return
+
+    application.add_handler(CommandHandler("start", start)) 
     
     # ایجاد Application
     application = Application.builder().token(TOKEN).build()
