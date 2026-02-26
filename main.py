@@ -1065,7 +1065,7 @@ async def handle_night_choice(query, data):
     await query.answer("✅ انتخاب ثبت شد!")
 
 # پردازش ورود بازیکن به بازی
-async def handle_join(query, context, data):
+    async def handle_join(query, context, data):
     """پردازش درخواست ورود بازیکن به بازی"""
     mode = data.split("_")[1]
     user = query.from_user
