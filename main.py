@@ -611,9 +611,7 @@ async def start_night_timer(context: CallbackContext, mode: str, chat_id):
         )
         
         if all_acted:
-            await context.bot.send_message(
-                chat_id=chat_id,
-                
+        
             break
     
     # پایان شب - انتخاب رندوم برای نقش‌های خاص که عمل نکردند
