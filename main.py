@@ -1129,8 +1129,16 @@ def main():
     if not TOKEN:
         print("خطا: توکن ربات تنظیم نشده است!")
         return
+def main():
+    application = Application.builder().token("TOKEN").build()
 
-    application.add_handler(CommandHandler("start", start)) 
+    # اضافه کردن هندلر start
+    application.add_handler(CommandHandler("start", start))
+
+    # اضافه کردن سایر هندلرهای قبلی
+    # ...
+
+    application.run_polling()
     
     # ایجاد Application
     application = Application.builder().token(TOKEN).build()
