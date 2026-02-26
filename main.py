@@ -1085,7 +1085,7 @@ user_name = user.first_name
     # اضافه کردن بازیکن
     players[mode][user_id] = {
     "name": user_name
-}
+    }
     await query.answer(f"✅ شما با موفقیت وارد شدید! ({len(players[mode])}/{MAX_PLAYERS})")
     
     # بروزرسانی لیست بازیکنان
