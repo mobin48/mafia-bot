@@ -134,7 +134,7 @@ def get_mode_text(mode, user_name):
 
 # دکمه ورود به روستا
 def get_join_keyboard(mode):
-    return InlineKeyboardMarkup([[InlineKeyboardButton("🎲 ورود به روستای آنلاین", callback_data=f"join_{mode}")]])
+    return InlineKeyboardMarkup([[InlineKeyboardButton(" ورود به روستا🌙 ", callback_data=f"join_{mode}")]])
 
 # متن شب
 night_text = """🌌 شب آرام آرام بر روستا سایه انداخته است.
