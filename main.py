@@ -1069,7 +1069,8 @@ async def handle_join(query, context, data):
     """پردازش درخواست ورود بازیکن به بازی"""
     mode = data.split("_")[1]
     user = query.from_user
-    username = user.username or user.first_name
+    user_id = user.id
+user_name = user.first_name
     
     # بررسی اینکه بازیکن قبلاً وارد شده یا نه
     if username in players[mode]:
@@ -1082,7 +1083,9 @@ async def handle_join(query, context, data):
         return
     
     # اضافه کردن بازیکن
-    players[mode][username] = user.id
+    players[mode][user_id] = {
+    "name": user_name
+}
     await query.answer(f"✅ شما با موفقیت وارد شدید! ({len(players[mode])}/{MAX_PLAYERS})")
     
     # بروزرسانی لیست بازیکنان
@@ -1093,8 +1096,8 @@ async def handle_join(query, context, data):
     if chat_id:
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f"[{username}](tg://user?id={user.id})\n(ID: {user.id})\nچند لحظه پیش وارد بازی شد ✅",
-            parse_mode="Markdown"
+            text = f'<a href="tg://user?id={user_id}">{user_name}</a>\nچند لحظه پیش وارد بازی شد ✅'
+            parse_mode="HTML"
         )
     
     if msg_id and chat_id:
