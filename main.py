@@ -1070,7 +1070,7 @@ async def handle_join(query, context, data):
     mode = data.split("_")[1]
     user = query.from_user
     user_id = user.id
-user_name = user.first_name
+    user_name = user.first_name
     
     # بررسی اینکه بازیکن قبلاً وارد شده یا نه
     if user_id in players[mode]:
