@@ -1129,16 +1129,9 @@ def main():
     if not TOKEN:
         print("خطا: توکن ربات تنظیم نشده است!")
         return
-def main():
-    application = Application.builder().token("TOKEN").build()
 
     # اضافه کردن هندلر start
-    application.add_handler(CommandHandler("start", start))
-
-    # اضافه کردن سایر هندلرهای قبلی
-    # ...
-
-    application.run_polling()
+    application.add_handler(CommandHandler("start", start)) 
     
     # ایجاد Application
     application = Application.builder().token(TOKEN).build()
