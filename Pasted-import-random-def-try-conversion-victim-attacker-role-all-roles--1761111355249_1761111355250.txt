@@ -1,0 +1,62 @@
+import random
+
+def try_conversion(victim, attacker_role, all_roles):
+    """
+    بررسی احتمال تبدیل قربانی به گرگ یا زامبی
+    victim: شیء بازیکن هدف
+    attacker_role: نقش حمله‌کننده (مثلاً گرگ آلفا یا زامبی)
+    all_roles: دیکشنری یا لیست از نقش‌ها برای دسترسی به تنظیمات کامل نقش
+    """
+
+    victim_role_info = next((r for r in all_roles if r["name"] == victim["role"]), None)
+    if not victim_role_info:
+        return None  # نقش قربانی پیدا نشد
+
+    # 🐺 حمله توسط گرگ آلفا
+    if attacker_role == "گرگ آلفا":
+        chance = victim_role_info.get("wolf_conversion_chance", 0)
+        if random.randint(1, 100) <= chance:
+            victim["team"] = "گرگ‌ها"
+            victim["role"] = "گرگینه"
+            return "wolf_converted"
+
+    # 🧟 حمله توسط زامبی
+    elif attacker_role == "زامبی":
+        chance = victim_role_info.get("zombie_infection_chance", 0)
+        if random.randint(1, 100) <= chance:
+            victim["team"] = "زامبی‌ها"
+            victim["role"] = "زامبی"
+            return "zombie_converted"
+
+    return None
+
+
+def handle_night_attacks(attacks, players, all_roles):
+    """
+    بررسی همه حملات شب
+    attacks: لیست حملات (مثل [{"attacker": "گرگ آلفا", "target": "سارا"}])
+    players: لیست تمام بازیکنان
+    all_roles: اطلاعات همه نقش‌ها
+    """
+
+    night_report = []
+
+    for attack in attacks:
+        attacker_role = attack["attacker"]
+        target_name = attack["target"]
+
+        victim = next((p for p in players if p["name"] == target_name), None)
+        if not victim or not victim["alive"]:
+            continue
+
+        result = try_conversion(victim, attacker_role, all_roles)
+
+        if result == "wolf_converted":
+            night_report.append(f"😱 {victim['name']} توسط گرگ آلفا گاز گرفته شد و به گرگینه تبدیل شد!")
+        elif result == "zombie_converted":
+            night_report.append(f"💀 {victim['name']} آلوده شد و حالا یکی از زامبی‌هاست!")
+        else:
+            victim["alive"] = False
+            night_report.append(f"☠️ {victim['name']} در شب کشته شد...")
+
+    return night_report

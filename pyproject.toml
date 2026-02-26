@@ -1,0 +1,11 @@
+[project]
+name = "telegram-werewolf-bot"
+version = "0.1.0"
+description = "Persian Telegram Mafia/Werewolf Game Bot"
+authors = ["Your Name <you@example.com>"]
+requires-python = ">=3.11"
+dependencies = [
+    "aiogram>=3.25.0",
+    "python-telegram-bot>=22.5",
+    "telegram>=0.0.1",
+]

@@ -1,0 +1,59 @@
+import random
+
+def try_conversion(victim, attacker_role, all_roles, current_night_number, send_private):
+    """
+    بررسی احتمال تبدیل قربانی به گرگ یا زامبی
+    victim: بازیکن هدف
+    attacker_role: نقش حمله‌کننده (مثلاً گرگ آلفا یا زامبی)
+    all_roles: لیست نقش‌ها
+    send_private: تابعی برای ارسال پیام خصوصی
+    """
+
+    victim_role_info = next((r for r in all_roles if r["name"] == victim["role"]), None)
+    if not victim_role_info:
+        return None
+
+    # 🐺 حمله توسط گرگ آلفا
+    if attacker_role == "گرگ آلفا":
+        chance = victim_role_info.get("wolf_conversion_chance", 0)
+        if random.randint(1, 100) <= chance:
+            # تبدیل موقت (گاز گرفته شده)
+            victim["pending_conversion"] = {
+                "type": "wolf",
+                "night_count": current_night_number
+            }
+
+            # پیام برای قربانی
+            send_private(victim["id"], "😨 در نیمه‌شب گاز گرگی بر شانه‌ات حس می‌کنی...\nاحساس عجیبی داری، اما هنوز نمی‌دانی چه بر سرت آمده است.")
+
+            # پیام برای گرگ‌ها
+            for wolf in [p for p in players if p["team"] == "گرگ‌ها" and p["alive"]]:
+                send_private(wolf["id"], f"📢 خبر به گرگ‌ها:\n{victim['name']} امشب توسط گرگ آلفا گاز گرفته شد.\nاحتمالاً تا فردا شب یکی از ما خواهد شد...")
+
+            return "wolf_bitten"
+
+    # 🧟 حمله زامبی (تبدیل فوری)
+    elif attacker_role == "زامبی":
+        chance = victim_role_info.get("zombie_infection_chance", 0)
+        if random.randint(1, 100) <= chance:
+            victim["team"] = "زامبی‌ها"
+            victim["role"] = "زامبی"
+            return "zombie_converted"
+
+    return None
+
+
+def finalize_pending_conversions(players, current_night_number):
+    """
+    تبدیل نهایی بازیکنانی که قبلاً گاز گرفته شده‌اند.
+    """
+    for player in players:
+        if (
+            player.get("pending_conversion")
+            and player["pending_conversion"]["type"] == "wolf"
+            and player["pending_conversion"]["night_count"] < current_night_number
+            and player["alive"]
+        ):
+            player["team"] = "گرگ‌ها"
+            player["role"] = "گرگینه"
+            del player["pending_conversion"]
