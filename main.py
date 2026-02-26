@@ -579,7 +579,6 @@ async def send_day_buttons(context: CallbackContext, mode: str, chat_id: int):
 # 🌞 شروع فاز روز
 async def start_day_phase(context: CallbackContext, mode: str, chat_id, report):
     text = (
-        "🏞️ صبح شد!\n\n"
         f"{report}\n"
         "همه بازیکن‌ها 120 ثانیه وقت دارین که منفی‌های بازی رو پیدا کنین "
         "و آن‌ها را از بازی خارج کنین.\n"
@@ -611,20 +610,8 @@ async def start_night_timer(context: CallbackContext, mode: str, chat_id):
         if all_acted:
             await context.bot.send_message(
                 chat_id=chat_id,
-                text="✅ همه بازیکنان انتخاب خود را انجام دادند. شب زودتر تمام می‌شود..."
-            )
+                
             break
-        
-        # پیام بروزرسانی هر 45 ثانیه
-        if remaining % 45 == 0 or remaining <= 45:
-            await context.bot.send_message(
-                chat_id=chat_id,
-                text=f"⏰ {remaining} ثانیه تا پایان شب باقی مانده است."
-            )
-        
-        await asyncio.sleep(check_interval)
-        remaining -= check_interval
-        elapsed += check_interval
     
     # پایان شب - انتخاب رندوم برای نقش‌های خاص که عمل نکردند
     status = player_status[mode]
