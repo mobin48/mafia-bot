@@ -1,3 +1,6 @@
+from core.session_manager import SessionManager
+
+session_manager = SessionManager()
 import os
 import asyncio
 import json
