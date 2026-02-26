@@ -584,8 +584,11 @@ async def start_day_phase(context: CallbackContext, mode: str, chat_id, report):
         "و آن‌ها را از بازی خارج کنین.\n"
         "🌻 روز خوش!\n"
     )
-    await context.bot.send_message(chat_id, text)
-    await send_alive_list(context, mode, chat_id)
+
+    await context.bot.send_message(
+        chat_id=chat_id,
+        text=text
+    )
     
     # ارسال دکمه‌های اکشن روزانه برای نقش‌های واجد شرایط
     await send_day_buttons(context, mode, chat_id)
