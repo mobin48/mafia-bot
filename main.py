@@ -1073,7 +1073,7 @@ async def handle_join(query, context, data):
 user_name = user.first_name
     
     # بررسی اینکه بازیکن قبلاً وارد شده یا نه
-    if username in players[mode]:
+    if user_id in players[mode]:
         await query.answer("شما قبلاً وارد شده‌اید!")
         return
     
