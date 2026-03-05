@@ -773,12 +773,13 @@ async def join_timer_loop(context: CallbackContext, mode: str, chat_id: int):
 # ------------------------------------------
 # فراخوانی هنگام شروع بازی یا تعداد ناکافی
 async def cleanup_join_timer(context: CallbackContext, chat_id: int):
-    if chat_id in timer_message_id:
-        try:
-            await context.bot.delete_message(
-                chat_id=chat_id,
-                message_id=timer_message_id[chat_id]
-            )
+    try:
+        if chat_id in timer_message_id:
+            try:
+                await context.bot.delete_message(
+                    chat_id=chat_id,
+                    message_id=timer_message_id[chat_id]
+                )
         except:
             pass
         del timer_message_id[chat_id]
