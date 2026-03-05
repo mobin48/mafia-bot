@@ -40,8 +40,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_first_start(user.id):
         # اگر قبلا آمده، چیزی نفرست
         return
-
-    # متن خوش‌آمدگویی
+# ابتدای main.py، قبل از هر تابع
+‏timer_message_id = {}  # ذخیره message_id پیام تایمر برای هر chat_id
+  
+# متن خوش‌آمدگویی
     welcome_text = (
         "ورود ارزشمند شما را به @SilentWerewolfBot تبریک میگویم.\n"
         "شما با موفقیت به ربات متصل شدید.\n"
@@ -733,8 +735,7 @@ async def start_join_timer(context: CallbackContext, chat_id, mode):
     total_time = join_times[mode]  # 300 ثانیه = 5 دقیقه
     interval = 45  # هر 45 ثانیه یک بار پیام بده
           
-# ابتدای main.py
-timer_message_id = {}  # ذخیره message_id پیام تایمر برای هر chat_id
+try,
 
 async def join_timer_loop(context: CallbackContext, mode: str, chat_id: int):
     total_time = 120  # تایمر کل جوین (مثال: 2 دقیقه)
