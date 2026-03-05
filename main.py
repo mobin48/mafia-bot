@@ -782,9 +782,6 @@ async def cleanup_join_timer(context: CallbackContext, chat_id: int):
         except:
             pass
         del timer_message_id[chat_id]
-            
-        # صبر تا پایان تایمر
-            await asyncio.sleep(45)
         
         # بررسی تعداد بازیکنان
         players_count = len(players[mode])
