@@ -1108,7 +1108,7 @@ async def handle_join(query, context, data):
         await context.bot.edit_message_text(
             chat_id=chat_id, 
             message_id=msg_id,
-            text=f"#Players: {len(players[mode])}/{MAX_PLAYERS}\n{player_list}"
+            text=f"#Players: {len(players[mode])}/{MAX_PLAYERS}\n{player_list}",
             parse_mode="HTML"
         )
 
