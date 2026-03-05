@@ -40,10 +40,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_first_start(user.id):
         # اگر قبلا آمده، چیزی نفرست
         return
-# ابتدای main.py، قبل از هر تابع
-‏timer_message_id = {}  # ذخیره message_id پیام تایمر برای هر chat_id
   
-# متن خوش‌آمدگویی
+   # متن خوش‌آمدگویی
     welcome_text = (
         "ورود ارزشمند شما را به @SilentWerewolfBot تبریک میگویم.\n"
         "شما با موفقیت به ربات متصل شدید.\n"
