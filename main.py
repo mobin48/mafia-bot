@@ -734,18 +734,53 @@ async def start_join_timer(context: CallbackContext, chat_id, mode):
     interval = 45  # هر 45 ثانیه یک بار پیام بده
     
     try:
-        # حلقه اصلی تایمر
-        while total_time > 45:
-            await asyncio.sleep(interval)
-            total_time -= interval
-            join_times[mode] = total_time  # بروزرسانی زمان باقیمانده
-            minutes = total_time // 60
-            seconds = total_time % 60
-            await context.bot.send_message(
+        # ابتدای main.py
+timer_message_id = {}  # ذخیره message_id پیام تایمر برای هر chat_id
+
+async def join_timer_loop(context: CallbackContext, mode: str, chat_id: int):
+    total_time = 120  # تایمر کل جوین (مثال: 2 دقیقه)
+    interval = 5       # هر چند ثانیه پیام بروزرسانی شود
+
+    while total_time > 45:  # حلقه تا 45 ثانیه قبل از شروع بازی
+        await asyncio.sleep(interval)
+        total_time -= interval
+        join_times[mode] = total_time  # بروزرسانی زمان باقیمانده
+
+        minutes = total_time // 60
+        seconds = total_time % 60
+
+        # پاک کردن پیام قبلی تایمر اگر وجود دارد
+        if chat_id in timer_message_id:
+            try:
+                await context.bot.delete_message(
+                    chat_id=chat_id,
+                    message_id=timer_message_id[chat_id]
+                )
+            except:
+                pass
+
+        # ارسال پیام تایمر جدید با دکمه ورود به روستا
+        timer_msg = await context.bot.send_message(
+            chat_id=chat_id,
+            text=f"⏳ {minutes} دقیقه و {seconds} ثانیه تا شروع بازی مونده!",
+            reply_markup=get_join_keyboard(mode)  # دکمه ورود
+        )
+
+        # ذخیره message_id برای پاک کردن در بار بعد
+        timer_message_id[chat_id] = timer_msg.message_id
+
+# ------------------------------------------
+# فراخوانی هنگام شروع بازی یا تعداد ناکافی
+async def cleanup_join_timer(context: CallbackContext, chat_id: int):
+    if chat_id in timer_message_id:
+        try:
+            await context.bot.delete_message(
                 chat_id=chat_id,
-                text=f"⏳ {minutes} دقیقه و {seconds} ثانیه تا شروع بازی مونده!",
-                reply_markup=get_join_keyboard(mode)
+                message_id=timer_message_id[chat_id]
             )
+        except:
+            pass
+        del timer_message_id[chat_id]
             
             # صبر تا پایان تایمر
             await asyncio.sleep(45)
