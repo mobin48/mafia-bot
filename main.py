@@ -1102,15 +1102,15 @@ async def handle_join(query, context, data):
     
     if msg_id and chat_id:
         player_list = "\n".join(
-    [f"{i+1}. <a href='tg://user?id={uid}'>{data['name']}</a>"
-     for i, (uid, data) in enumerate(players[mode].items())]
-)
+            [f"{i+1}. <a href='tg://user?id={uid}'>{data['name']}</a>"
+             for i, (uid, data) in enumerate(players[mode].items())]
+       )
      await context.bot.edit_message_text(
-     chat_id=chat_id,
-     message_id=msg_id,
-     text=f"#Players: {len(players[mode])}\n{player_list}",
-     parse_mode="HTML"
-)
+         chat_id=chat_id,
+         message_id=msg_id,
+         text=f"#Players: {len(players[mode])}\n{player_list}",
+         parse_mode="HTML"
+     )
 
 # هندلر اصلی دکمه‌ها (ساده‌شده)
 async def button(update: Update, context: CallbackContext):
