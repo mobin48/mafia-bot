@@ -1096,7 +1096,7 @@ async def handle_join(query, context, data):
     if chat_id:
         await context.bot.send_message(
             chat_id=chat_id,
-            text = f'<a href="tg://user?id={user_id}">{user_name}</a>\nچند لحظه پیش وارد بازی شد ✅'
+            text = f'<a href="tg://user?id={user_id}">{user_name}</a>\nچند لحظه پیش وارد بازی شد ✅',
             parse_mode="HTML"
         )
     
