@@ -739,8 +739,8 @@ async def start_join_timer(context: CallbackContext, chat_id, mode):
     await join_timer_loop(context, mode, chat_id)  
 
 async def join_timer_loop(context: CallbackContext, mode: str, chat_id: int):
-    total_time = 120  # تایمر کل جوین (مثال: 2 دقیقه)
-    interval = 5       # هر چند ثانیه پیام بروزرسانی شود
+    total_time = 240  # تایمر کل جوین (مثال: 4 دقیقه)
+    interval = 30       # هر چند ثانیه پیام بروزرسانی شود
 
     while total_time > 45:  # حلقه تا 45 ثانیه قبل از شروع بازی
         await asyncio.sleep(interval)
