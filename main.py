@@ -780,9 +780,9 @@ async def cleanup_join_timer(context: CallbackContext, chat_id: int):
                     chat_id=chat_id,
                     message_id=timer_message_id[chat_id]
                 )
-        except:
-            pass
-        del timer_message_id[chat_id]
+            except:
+                pass
+            del timer_message_id[chat_id]
         
         # بررسی تعداد بازیکنان
         players_count = len(players[mode])
