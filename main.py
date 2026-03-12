@@ -744,8 +744,8 @@ async def join_timer_loop(context: CallbackContext, mode: str, chat_id: int):
 
     while total_time > 45:  # حلقه تا 45 ثانیه قبل از شروع بازی
         await asyncio.sleep(interval)
-        total_time -= join_times[mode]
-        join_times[mode] -= interval
+        total_time -= interval
+        join_times[mode] = total_time
 
         minutes = total_time // 60
         seconds = total_time % 60
