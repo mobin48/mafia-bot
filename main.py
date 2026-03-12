@@ -731,13 +731,6 @@ async def start_game_with_night(context: CallbackContext, mode: str, chat_id):
 # ابتدای main.py، قبل از هر تابع   
 timer_message_id = {} # ذخیره message_id پیام تایمر برای هر chat_id
 
-# تایمر جوین (پیام تایمر با دکمه ورود)
-async def start_join_timer(context: CallbackContext, chat_id, mode):
-    total_time = join_times[mode]  # 300 ثانیه = 5 دقیقه
-    interval = 45  # هر 45 ثانیه یک بار پیام بده  
-async def start_join_timer(context: CallbackContext, chat_id, mode):
-    await join_timer_loop(context, mode, chat_id)  
-
 async def join_timer_loop(context: CallbackContext, mode: str, chat_id: int):
     total_time = join_times[mode]
     interval = 30       # هر چند ثانیه پیام بروزرسانی شود
